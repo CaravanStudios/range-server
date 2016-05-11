@@ -1,0 +1,25 @@
+{
+	"sendgrid" : {
+		"mail": "https://api.sendgrid.com/api/mail.send.json",
+		"unsubscribes": "https://api.sendgrid.com/api/unsubscribes.get.json",
+		"username": "USERNAME",
+		"password": "PASSWORD"
+	},
+	"twilio" : {
+		"url": "URL",
+		"username": "USERNAME",
+		"password": "PASSWORD",
+		"reply": "REPLY",
+		"from": "PHONE_NUMBER"
+	},
+	"popupMsg" : "MESSAGE",
+	"shareMail" : {
+		"from" : "EMAIL",
+		"fromname" : "NAME",
+		"subject" : "SUBJECT",
+		"template_id": "TEMPLATE_ID"
+	},
+	"contactUs" : {
+		"to" : "EMAIL"
+	}
+}
