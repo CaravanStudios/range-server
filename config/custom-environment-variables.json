@@ -1,0 +1,18 @@
+{
+	"sendgrid" : {
+		"username": "SENDGRID_USERNAME",
+		"password": "SENDGRID_PASSWORD"
+	},
+	"twilio" : {
+		"url": "TWILIO_URL",
+		"username": "TWILIO_USERNAME",
+		"password": "TWILIO_PASSWORD",
+		"from": "TWILIO_FROM"
+	},
+	"shareMail" : {
+		"from" : "SHARE_EMAIL",
+		"fromname" : "SHARE_NAME",
+		"subject" : "SHARE_SUBJECT",
+		"template_id": "SHARE_TEMPLATEID"
+	}
+}

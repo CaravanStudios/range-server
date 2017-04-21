@@ -2,24 +2,25 @@
 	"sendgrid" : {
 		"mail": "https://api.sendgrid.com/api/mail.send.json",
 		"unsubscribes": "https://api.sendgrid.com/api/unsubscribes.get.json",
-		"username": "USERNAME",
-		"password": "PASSWORD"
+		"username": "SENDGRID_USERNAME",
+		"password": "SENDGRID_PASSWORD",
+		"category": "Range"
 	},
 	"twilio" : {
-		"url": "URL",
-		"username": "USERNAME",
-		"password": "PASSWORD",
-		"reply": "REPLY",
-		"from": "PHONE_NUMBER"
+		"url": "TWILIO_URL",
+		"username": "TWILIO_USERNAME",
+		"password": "TWILIO_PASSWORD",
+		"reply": "Thanks for contacting Range. This number cannot receive text messages. Email range@caravanstudios.org. Reply STOP to unsubscribe. Msg&amp;Data rates may apply.",
+		"from": "TWILIO_FROM"
 	},
-	"popupMsg" : "MESSAGE",
+	"popupMsg" : "Summer is over which means Range is no longer in use until May 2015. Please take a moment to tell us how you used Range by answering a few questions in <a href=\"https://www.surveymonkey.com/s/B72DGR9\" target=\"_blank\" ontouchstart=\"openWeb()\" onclick=\"openWeb()\">our survey</a>.",
 	"shareMail" : {
-		"from" : "EMAIL",
-		"fromname" : "NAME",
-		"subject" : "SUBJECT",
-		"template_id": "TEMPLATE_ID"
+		"from" : "fromrange@caravanstudios.org",
+		"fromname" : "Range",
+		"subject" : "Summer meal location sent from Range",
+		"template_id": "SHARE_TEMPLATEID"
 	},
 	"contactUs" : {
-		"to" : "EMAIL"
+		"to" : "range@caravanstudios.org"
 	}
 }

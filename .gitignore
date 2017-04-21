@@ -1,1 +1,6 @@
 config/production.json
+config/staging.json
+config/development.json
+.env
+node_modules
+*.log

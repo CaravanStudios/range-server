@@ -1,0 +1,15 @@
+version: '3'
+services:
+  range:
+    build: .
+    ports:
+      - 8787:8787
+    restart: always
+    environment: 
+      SENDGRID_USERNAME: ${SENDGRID_USERNAME}
+      SENDGRID_PASSWORD: ${SENDGRID_PASSWORD}
+      TWILIO_URL: ${TWILIO_URL}
+      TWILIO_USERNAME: ${TWILIO_USERNAME}
+      TWILIO_PASSWORD: ${TWILIO_PASSWORD}
+      TWILIO_FROM: ${TWILIO_FROM}
+      SHARE_TEMPLATEID: ${SHARE_TEMPLATEID}

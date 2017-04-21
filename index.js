@@ -1,20 +1,23 @@
-var request = require('request');
-var express = require('express');
-var app = express();
-var config = require('config');
+const config = require('config');
+const request = require('request');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-var sendgrid = config.get('sendgrid');
-var twilio = config.get('twilio');
-var shareMail = config.get('shareMail');
-var contactUs = config.get('contactUs');
-var popupMsg = config.get('popupMsg');
+const sendgrid = config.get('sendgrid');
+const twilio = config.get('twilio');
+const shareMail = config.get('shareMail');
+const contactUs = config.get('contactUs');
+const popupMsg = config.get('popupMsg');
+
+console.log(sendgrid, twilio, shareMail, contactUs, popupMsg);
+
+const app = express();
 
 app.use(require('cors')());
-app.use(express.json());
-app.use(express.urlencoded());
+app.use(bodyParser.json());
 
 app.use('/sms/reply', function(req, res){
-    var xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Sms>' + twilio.reply + '</Sms></Response>';
+    const xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Sms>' + twilio.reply + '</Sms></Response>';
     res.status(200).header('Content-Type','text/xml').send(xml);
 });
 
@@ -74,7 +77,10 @@ app.post('/share/mail', function(req, res){
                                         "template_id": shareMail.template_id
                                     }
                                 }
-                            }
+                            },
+                            "category": [
+                                sendgrid.category
+                            ]
                         })
                     }
                 }, function(err, response, body){
@@ -95,7 +101,8 @@ app.post('/contactus', function(req, res){
         qs: {
             email: req.body.from,
             api_user: sendgrid.username,
-            api_key: sendgrid.password
+            api_key: sendgrid.password,
+            categories: [sendgrid.category]
         }
     }, function(err, response, body){
         if (err){
@@ -114,7 +121,12 @@ app.post('/contactus', function(req, res){
                         html: req.body.text,
                         from: req.body.from,
                         api_user: sendgrid.username,
-                        api_key: sendgrid.password
+                        api_key: sendgrid.password,
+                        'x-smtpapi': JSON.stringify({
+                            "category": [
+                                sendgrid.category
+                            ]
+                        })
                     }
                 }, function(err, response, body){
                     if (err){
