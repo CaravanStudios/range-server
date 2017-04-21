@@ -15,6 +15,7 @@ const app = express();
 
 app.use(require('cors')());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 app.use('/sms/reply', function(req, res){
     const xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Sms>' + twilio.reply + '</Sms></Response>';
