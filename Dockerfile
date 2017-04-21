@@ -16,5 +16,5 @@ RUN npm install -g pm2
 
 ENV NODE_ENV docker
 
-EXPOSE 5253
+EXPOSE 8787
 CMD ["pm2-docker", "index.js"]
