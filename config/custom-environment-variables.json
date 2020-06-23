@@ -14,5 +14,9 @@
 		"fromname" : "SHARE_NAME",
 		"subject" : "SHARE_SUBJECT",
 		"template_id": "SHARE_TEMPLATEID"
-	}
+	},
+	"log": {
+    "logger": "LOG_LOGGER",
+    "appInsightInstrumentKey": "AZURE_APPLICATION_INSIGHT_INSTRUMENT_KEY"
+  }
 }

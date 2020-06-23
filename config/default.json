@@ -1,4 +1,7 @@
 {
+	"app": {
+		"name": "range-server"
+	},
 	"sendgrid" : {
 		"mail": "https://api.sendgrid.com/api/mail.send.json",
 		"unsubscribes": "https://api.sendgrid.com/api/unsubscribes.get.json",
@@ -22,5 +25,10 @@
 	},
 	"contactUs" : {
 		"to" : "range@caravanstudios.org"
-	}
+	},
+	"log": {
+    "logger": "AppInsightLogger",
+    "level": "info",
+    "appInsightInstrumentKey": ""
+  }
 }

@@ -11,10 +11,7 @@ RUN npm install
 # Bundle app source
 COPY . /usr/src/app
 
-# Install pm2
-RUN npm install -g pm2
-
 ENV NODE_ENV docker
 
-EXPOSE 8787
-CMD ["pm2-docker", "index.js"]
+EXPOSE 8787 80
+CMD ["index.js"]
