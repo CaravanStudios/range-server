@@ -2,9 +2,24 @@ const config = require('config');
 const request = require('request');
 const express = require('express');
 const bodyParser = require('body-parser');
+const appInsights = require("applicationinsights");
 
-const logger = require('./logger');
-logger();
+appInsights
+    .setup(config.get("appInsightInstrumentKey"))
+    .setAutoDependencyCorrelation(true)
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .setAutoCollectConsole(true)
+    .setAutoDependencyCorrelation(true)
+    .setUseDiskRetryCaching(true);
+
+appInsights.defaultClient.context.tags[
+    appInsights.defaultClient.context.keys.cloudRole
+] = ("app.name");
+
+appInsights.start();
 
 const sendgrid = config.get('sendgrid');
 const twilio = config.get('twilio');
@@ -18,17 +33,17 @@ server.head("/healthcheck", (req, res) => {
     res.send({ status: "ok" });
   });
   
-  server.get("/", (req, res) => {
-    //azure healthcheck
-    res.status(200).send("OK");
-  });
-  
-  server.get("/robots933456.txt", (req, res) => {
-    //azure healthcheck
-    res.status(200).send("OK");
-  });
-  
-  server.listen(80);
+server.get("/", (req, res) => {
+//azure healthcheck
+res.status(200).send("OK");
+});
+
+server.get("/robots933456.txt", (req, res) => {
+//azure healthcheck
+res.status(200).send("OK");
+});
+
+server.listen(80);
 
 console.log(sendgrid, twilio, shareMail, contactUs, popupMsg);
 

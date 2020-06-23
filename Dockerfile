@@ -21,5 +21,5 @@ RUN apt-get update \
 
 COPY sshd_config /etc/ssh/
 
-EXPOSE 8787 80
+EXPOSE 8787 1337 80
 CMD ["node", "index.js"]
