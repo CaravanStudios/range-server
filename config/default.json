@@ -26,9 +26,5 @@
 	"contactUs" : {
 		"to" : "range@caravanstudios.org"
 	},
-	"log": {
-    "logger": "AppInsightLogger",
-    "level": "info",
-    "appInsightInstrumentKey": ""
-  }
+	"appInsightInstrumentKey": ""
 }

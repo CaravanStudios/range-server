@@ -2,7 +2,6 @@ const config = require('config');
 const request = require('request');
 const express = require('express');
 const bodyParser = require('body-parser');
-const appInsights = require("applicationinsights");
 
 const sendgrid = config.get('sendgrid');
 const twilio = config.get('twilio');
@@ -10,22 +9,9 @@ const shareMail = config.get('shareMail');
 const contactUs = config.get('contactUs');
 const popupMsg = config.get('popupMsg');
 
-if (config.has("log.appInsightInstrumentKey")) {
-    appInsights
-        .setup(config.get("log.appInsightInstrumentKey"))
-        .setAutoDependencyCorrelation(true)
-        .setAutoCollectRequests(true)
-        .setAutoCollectPerformance(true)
-        .setAutoCollectExceptions(true)
-        .setAutoCollectDependencies(true)
-        .setAutoCollectConsole(true)
-        .setUseDiskRetryCaching(true)
-        .setAutoCollectConsole(true, false);
-    appInsights.defaultClient.context.tags[
-        appInsights.defaultClient.context.keys.cloudRole
-    ] = config.get("app.name");
-    appInsights.start();
-}
+const logger = require('./logger');
+
+logger();
 
 const server = express();
 

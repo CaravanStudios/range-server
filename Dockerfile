@@ -11,7 +11,8 @@ RUN npm install
 # Bundle app source
 COPY . /usr/src/app
 
+COPY sshd_config /etc/ssh/
 ENV NODE_ENV docker
 
 EXPOSE 8787 80
-CMD ["index.js"]
+CMD ["node", "index.js"]
