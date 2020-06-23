@@ -3,15 +3,14 @@ const request = require('request');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const logger = require('./logger');
+logger();
+
 const sendgrid = config.get('sendgrid');
 const twilio = config.get('twilio');
 const shareMail = config.get('shareMail');
 const contactUs = config.get('contactUs');
 const popupMsg = config.get('popupMsg');
-
-const logger = require('./logger');
-
-logger();
 
 const server = express();
 
