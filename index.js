@@ -4,22 +4,24 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const appInsights = require("applicationinsights");
 
-appInsights
-    .setup(config.get("appInsightInstrumentKey"))
-    .setAutoDependencyCorrelation(true)
-    .setAutoCollectRequests(true)
-    .setAutoCollectPerformance(true)
-    .setAutoCollectExceptions(true)
-    .setAutoCollectDependencies(true)
-    .setAutoCollectConsole(true)
-    .setAutoDependencyCorrelation(true)
-    .setUseDiskRetryCaching(true);
-
-appInsights.defaultClient.context.tags[
-    appInsights.defaultClient.context.keys.cloudRole
-] = ("app.name");
-
-appInsights.start();
+if(config.get("appInsightInstrumentKey")) {
+    appInsights
+        .setup(config.get("appInsightInstrumentKey"))
+        .setAutoDependencyCorrelation(true)
+        .setAutoCollectRequests(true)
+        .setAutoCollectPerformance(true)
+        .setAutoCollectExceptions(true)
+        .setAutoCollectDependencies(true)
+        .setAutoCollectConsole(true)
+        .setAutoDependencyCorrelation(true)
+        .setUseDiskRetryCaching(true);
+    
+    appInsights.defaultClient.context.tags[
+        appInsights.defaultClient.context.keys.cloudRole
+    ] = ("app.name");
+    
+    appInsights.start();
+}
 
 const sendgrid = config.get('sendgrid');
 const twilio = config.get('twilio');
@@ -27,27 +29,21 @@ const shareMail = config.get('shareMail');
 const contactUs = config.get('contactUs');
 const popupMsg = config.get('popupMsg');
 
-const server = express();
+const app = express();
 
-server.head("/healthcheck", (req, res) => {
+app.head("/healthcheck", (req, res) => {
     res.send({ status: "ok" });
   });
   
-server.get("/", (req, res) => {
+app.get("/", (req, res) => {
 //azure healthcheck
 res.status(200).send("OK");
 });
 
-server.get("/robots933456.txt", (req, res) => {
+app.get("/robots933456.txt", (req, res) => {
 //azure healthcheck
 res.status(200).send("OK");
 });
-
-server.listen(80);
-
-console.log(sendgrid, twilio, shareMail, contactUs, popupMsg);
-
-const app = express();
 
 app.use(require('cors')());
 app.use(bodyParser.json());
