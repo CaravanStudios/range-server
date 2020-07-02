@@ -18,7 +18,7 @@ if(config.get("appInsightInstrumentKey")) {
     
     appInsights.defaultClient.context.tags[
         appInsights.defaultClient.context.keys.cloudRole
-    ] = ("app.name");
+    ] = config.get("app.name");
     
     appInsights.start();
 }
