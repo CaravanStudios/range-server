@@ -101,9 +101,10 @@ app.post("/share/mail", function (req, res) {
     {
       url: sendgrid.unsubscribes,
       qs: {
-        email: req.body.to,
-        api_user: sendgrid.username,
-        api_key: sendgrid.password
+        email: req.body.to
+      },
+      headers: {
+        Authorization: "Bearer " + sendgrid.apiKey
       }
     },
     function (err, response, body) {
@@ -123,8 +124,6 @@ app.post("/share/mail", function (req, res) {
                 html: req.body.html,
                 from: shareMail.from,
                 fromname: "Range",
-                api_user: sendgrid.username,
-                api_key: sendgrid.password,
                 "x-smtpapi": JSON.stringify({
                   filters: {
                     templates: {
@@ -136,6 +135,9 @@ app.post("/share/mail", function (req, res) {
                   },
                   category: [sendgrid.category]
                 })
+              },
+              headers: {
+                Authorization: "Bearer " + sendgrid.apiKey
               }
             },
             function (err, response, body) {
@@ -158,9 +160,10 @@ app.post("/contactus", function (req, res) {
       url: sendgrid.unsubscribes,
       qs: {
         email: req.body.from,
-        api_user: sendgrid.username,
-        api_key: sendgrid.password,
         categories: [sendgrid.category]
+      },
+      headers: {
+        Authorization: "Bearer " + sendgrid.apiKey
       }
     },
     function (err, response, body) {
@@ -180,11 +183,12 @@ app.post("/contactus", function (req, res) {
                 subject: req.body.subject,
                 html: req.body.text,
                 from: req.body.from,
-                api_user: sendgrid.username,
-                api_key: sendgrid.password,
                 "x-smtpapi": JSON.stringify({
                   category: [sendgrid.category]
                 })
+              },
+              headers: {
+                Authorization: "Bearer " + sendgrid.apiKey
               }
             },
             function (err, response, body) {

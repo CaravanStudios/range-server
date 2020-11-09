@@ -5,8 +5,7 @@
 	"sendgrid" : {
 		"mail": "https://api.sendgrid.com/api/mail.send.json",
 		"unsubscribes": "https://api.sendgrid.com/api/unsubscribes.get.json",
-		"username": "SENDGRID_USERNAME",
-		"password": "SENDGRID_PASSWORD",
+		"apiKey": "SENDGRID_APIKEY",
 		"category": "Range"
 	},
 	"twilio" : {

@@ -1,7 +1,6 @@
 {
 	"sendgrid" : {
-		"username": "SENDGRID_USERNAME",
-		"password": "SENDGRID_PASSWORD"
+		"apiKey": "SENDGRID_APIKEY"
 	},
 	"twilio" : {
 		"url": "TWILIO_URL",
