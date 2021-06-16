@@ -128,7 +128,7 @@ app.post("/share/mail", function (req, res) {
                   filters: {
                     templates: {
                       settings: {
-                        enabled: 1,
+                        enable: 1,
                         template_id: shareMail.template_id
                       }
                     }
