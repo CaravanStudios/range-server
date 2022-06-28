@@ -1,0 +1,21 @@
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        pool:
+          vmImage: "ubuntu-latest"
+        steps:
+          - checkout: CaravanStudios/range-server
+          - task: DockerInstaller@0
+            displayName: "Install Docker 17.09.0-ce"
+          - bash: |
+              docker build -t caravanregistry.azurecr.io/range-server:1.0.$(Build.BuildId) .
+            failOnStderr: true
+            displayName: "Docker tag & build"
+          - task: Docker@1
+            displayName: "Push the range-server image to Caravan Registry"
+            inputs:
+              azureSubscriptionEndpoint: "caravan-sc"
+              azureContainerRegistry: caravanregistry.azurecr.io
+              command: "Push an image"
+              imageName: "caravanregistry.azurecr.io/range-server:1.0.$(Build.BuildId)"

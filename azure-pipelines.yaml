@@ -1,0 +1,15 @@
+resources:
+  repositories:
+    - repository: CaravanStudios/range-server
+      type: github
+      endpoint: CaravanStudios
+      name: CaravanStudios/range-server
+trigger:
+  - master
+pr: none
+pool:
+  vmImage: "ubuntu-latest"
+stages:
+  - template: templates/build-stage.yaml
+  - template: templates/dev-release.yaml
+  - template: templates/live-release.yaml
