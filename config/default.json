@@ -1,29 +1,31 @@
 {
-	"app": {
-		"name": "range-server"
-	},
-	"sendgrid" : {
-		"mail": "https://api.sendgrid.com/api/mail.send.json",
-		"unsubscribes": "https://api.sendgrid.com/api/unsubscribes.get.json",
-		"apiKey": "SENDGRID_APIKEY",
-		"category": "Range"
-	},
-	"twilio" : {
-		"url": "TWILIO_URL",
-		"username": "TWILIO_USERNAME",
-		"password": "TWILIO_PASSWORD",
-		"reply": "Thanks for contacting Range. This number cannot receive text messages. Email range@caravanstudios.org. Reply STOP to unsubscribe. Msg&amp;Data rates may apply.",
-		"from": "TWILIO_FROM"
-	},
-	"popupMsg" : "Summer is over which means Range is no longer in use until May 2015. Please take a moment to tell us how you used Range by answering a few questions in <a href=\"https://www.surveymonkey.com/s/B72DGR9\" target=\"_blank\" ontouchstart=\"openWeb()\" onclick=\"openWeb()\">our survey</a>.",
-	"shareMail" : {
-		"from" : "fromrange@caravanstudios.org",
-		"fromname" : "Range",
-		"subject" : "Summer meal location sent from Range",
-		"template_id": "SHARE_TEMPLATEID"
-	},
-	"contactUs" : {
-		"to" : "range@caravanstudios.org"
-	},
-	"appInsightInstrumentKey": ""
+  "app": {
+    "name": "range-server"
+  },
+  "sendgrid": {
+    "mail": "https://api.sendgrid.com/api/mail.send.json",
+    "unsubscribes": "https://api.sendgrid.com/api/unsubscribes.get.json",
+    "apiKey": "SENDGRID_APIKEY",
+    "category": "Range"
+  },
+  "twilio": {
+    "url": "TWILIO_URL",
+    "username": "TWILIO_USERNAME",
+    "password": "TWILIO_PASSWORD",
+    "reply": "Thanks for contacting Range. This number cannot receive text messages. Email range@caravanstudios.org. Reply STOP to unsubscribe. Msg&amp;Data rates may apply.",
+    "from": "TWILIO_FROM"
+  },
+  "popupMsg": "Summer is over which means Range is no longer in use until May 2015. Please take a moment to tell us how you used Range by answering a few questions in <a href=\"https://www.surveymonkey.com/s/B72DGR9\" target=\"_blank\" ontouchstart=\"openWeb()\" onclick=\"openWeb()\">our survey</a>.",
+  "shareMail": {
+    "from": "fromrange@caravanstudios.org",
+    "fromname": "Range",
+    "subject": "Summer meal location sent from Range",
+    "template_id": "SHARE_TEMPLATEID"
+  },
+  "contactUs": {
+    "to": "range@caravanstudios.org"
+  },
+  "appInsightInstrumentKey": "",
+  "foodUrl": "https://caravanstudios.data.socrata.com/resource/hzqr-yav7.json",
+  "libraryUrl": "https://caravanstudios.data.socrata.com/resource/7ftk-2qyy.json"
 }

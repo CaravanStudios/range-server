@@ -1,18 +1,20 @@
 {
-	"sendgrid" : {
-		"apiKey": "SENDGRID_APIKEY"
-	},
-	"twilio" : {
-		"url": "TWILIO_URL",
-		"username": "TWILIO_USERNAME",
-		"password": "TWILIO_PASSWORD",
-		"from": "TWILIO_FROM"
-	},
-	"shareMail" : {
-		"from" : "SHARE_EMAIL",
-		"fromname" : "SHARE_NAME",
-		"subject" : "SHARE_SUBJECT",
-		"template_id": "SHARE_TEMPLATEID"
-	},
-	"appInsightInstrumentKey": "AZURE_APPLICATION_INSIGHT_INSTRUMENT_KEY"
+  "sendgrid": {
+    "apiKey": "SENDGRID_APIKEY"
+  },
+  "twilio": {
+    "url": "TWILIO_URL",
+    "username": "TWILIO_USERNAME",
+    "password": "TWILIO_PASSWORD",
+    "from": "TWILIO_FROM"
+  },
+  "shareMail": {
+    "from": "SHARE_EMAIL",
+    "fromname": "SHARE_NAME",
+    "subject": "SHARE_SUBJECT",
+    "template_id": "SHARE_TEMPLATEID"
+  },
+  "appInsightInstrumentKey": "AZURE_APPLICATION_INSIGHT_INSTRUMENT_KEY",
+  "foodUrl": "FOOD_URL",
+  "libraryUrl": "LIBRARY_URL"
 }

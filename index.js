@@ -3,6 +3,10 @@ const request = require("request");
 const express = require("express");
 const bodyParser = require("body-parser");
 const appInsights = require("applicationinsights");
+const {
+  createProxyMiddleware,
+  responseInterceptor
+} = require("http-proxy-middleware");
 
 if (config.get("appInsightInstrumentKey")) {
   appInsights
@@ -208,6 +212,47 @@ app.post("/contactus", function (req, res) {
 app.get("/popup", function (req, res) {
   res.status(200).send(popupMsg);
 });
+
+const proxyMiddleware = (target, pathRewrite) =>
+  createProxyMiddleware({
+    target,
+    changeOrigin: true,
+    pathRewrite,
+    selfHandleResponse: true,
+    onProxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
+      if (!proxyRes.headers["content-type"]?.includes("application/json"))
+        return responseBuffer;
+
+      const originalResponse = JSON.parse(responseBuffer.toString("utf8"));
+
+      const modifiedResponse = originalResponse.map(item => {
+        if (!item.coordinates?.coordinates) return item;
+
+        const {
+          coordinates: {
+            coordinates: [longitude, latitude]
+          }
+        } = item;
+
+        return {
+          ...item,
+          coordinates: {
+            latitude,
+            longitude
+          }
+        };
+      });
+
+      return JSON.stringify(modifiedResponse);
+    })
+  });
+
+app.use("/food", proxyMiddleware(config.get("foodUrl"), { "^/food": "" }));
+
+app.use(
+  "/library",
+  proxyMiddleware(config.get("libraryUrl"), { "^/library": "" })
+);
 
 app.use(express.static("./public"));
 
