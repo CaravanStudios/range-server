@@ -3,6 +3,10 @@ const request = require("request");
 const express = require("express");
 const bodyParser = require("body-parser");
 const appInsights = require("applicationinsights");
+const {
+  createProxyMiddleware,
+  responseInterceptor
+} = require("http-proxy-middleware");
 
 if (config.get("appInsightInstrumentKey")) {
   appInsights
@@ -208,6 +212,60 @@ app.post("/contactus", function (req, res) {
 app.get("/popup", function (req, res) {
   res.status(200).send(popupMsg);
 });
+
+const modifyCoordinates = originalResponse =>
+  originalResponse.reduce((acc, curr) => {
+    const {
+      coordinates: {
+        coordinates: [longitude, latitude]
+      }
+    } = curr;
+
+    return [
+      ...acc,
+      {
+        ...curr,
+        coordinates: {
+          latitude,
+          longitude
+        }
+      }
+    ];
+  }, []);
+
+app.use(
+  "/food",
+  createProxyMiddleware({
+    target: config.get("foodUrl"),
+    changeOrigin: true,
+    pathRewrite: { "^/food": "" },
+    selfHandleResponse: true,
+    onProxyRes: responseInterceptor(async responseBuffer => {
+      const originalResponse = JSON.parse(responseBuffer.toString());
+
+      const modifiedResponse = modifyCoordinates(originalResponse);
+
+      return JSON.stringify(modifiedResponse);
+    })
+  })
+);
+
+app.use(
+  "/library",
+  createProxyMiddleware({
+    target: config.get("libraryUrl"),
+    changeOrigin: true,
+    pathRewrite: { "^/library": "" },
+    selfHandleResponse: true,
+    onProxyRes: responseInterceptor(async responseBuffer => {
+      const originalResponse = JSON.parse(responseBuffer.toString());
+
+      const modifiedResponse = modifyCoordinates(originalResponse);
+
+      return JSON.stringify(modifiedResponse);
+    })
+  })
+);
 
 app.use(express.static("./public"));
 
