@@ -1,0 +1,53 @@
+stages:
+  - stage: Development
+    dependsOn: Build
+    condition: succeeded('Build')
+    jobs:
+      - deployment: Development
+        pool:
+          vmImage: "ubuntu-latest"
+        variables:
+          - name: APP_SERVICE_NAME
+            value: range-server-dev
+          - name: RESOURCE_GROUP
+            value: caravan-dev
+          - name: DOCKER_REGISTRY_HOST
+            value: caravanregistry.azurecr.io
+          - name: WEBSITES_PORT
+            value: 8787
+          - name: WEBSITES_CONTAINER_START_TIME_LIMIT
+            value: 1800
+          - group: "range-server-dev"
+        environment: development
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureCLI@2
+                  displayName: "Deploy range-server"
+                  inputs:
+                    azureSubscription: "caravan-sc"
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      az webapp config container set --name $(APP_SERVICE_NAME) \
+                        --resource-group $(RESOURCE_GROUP) \
+                        --docker-custom-image-name $(DOCKER_REGISTRY_HOST)/range-server:1.0.$(Build.BuildId) \
+                        --docker-registry-server-url $(DOCKER_REGISTRY_HOST) \
+                        --docker-registry-server-user $(DOCKER_REGISTRY_USER) \
+                        --docker-registry-server-password $(DOCKER_REGISTRY_PASSWORD)
+                        
+                      az webapp config appsettings set -g $(RESOURCE_GROUP) --name $(APP_SERVICE_NAME) \
+                        --settings SENDGRID_USERNAME="$(SENDGRID_USERNAME)" \
+                        SENDGRID_PASSWORD="$(SENDGRID_PASSWORD)" \
+                        SENDGRID_APIKEY="$(SENDGRID_APIKEY)" \
+                        TWILIO_URL="$(TWILIO_URL)" \
+                        WEBSITES_PORT="$(WEBSITES_PORT)" \
+                        WEBSITES_CONTAINER_START_TIME_LIMIT="$(WEBSITES_CONTAINER_START_TIME_LIMIT)" \
+                        TWILIO_FROM="$(TWILIO_FROM)" \
+                        TWILIO_PASSWORD="$(TWILIO_PASSWORD)" \
+                        SHARE_TEMPLATEID="$(SHARE_TEMPLATEID)" \
+                        AZURE_APPLICATION_INSIGHT_INSTRUMENT_KEY="$(APP_INSIGHTS_KEY)"
+
+
+                      az webapp restart --name $(APP_SERVICE_NAME) --resource-group $(RESOURCE_GROUP)
