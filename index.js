@@ -220,15 +220,13 @@ const proxyMiddleware = (target, pathRewrite) =>
     pathRewrite,
     selfHandleResponse: true,
     onProxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
-      console.log(proxyRes.headers);
-      if (proxyRes.headers["content-type"] !== "application/json;charset=utf-8")
+      if (!proxyRes.headers["content-type"].includes("application/json"))
         return responseBuffer;
 
       const originalResponse = JSON.parse(responseBuffer.toString("utf8"));
 
       const modifiedResponse = originalResponse.map(item => {
-        if (!item.coordinates) return item;
-        if (!item.coordinates.coordinates) return item;
+        if (!item.coordinates?.coordinates) return item;
 
         const {
           coordinates: {
