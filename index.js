@@ -220,7 +220,7 @@ const proxyMiddleware = (target, pathRewrite) =>
     pathRewrite,
     selfHandleResponse: true,
     onProxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
-      if (!proxyRes.headers["content-type"].includes("application/json"))
+      if (!proxyRes.headers["content-type"]?.includes("application/json"))
         return responseBuffer;
 
       const originalResponse = JSON.parse(responseBuffer.toString("utf8"));
