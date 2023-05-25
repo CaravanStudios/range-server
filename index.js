@@ -213,58 +213,47 @@ app.get("/popup", function (req, res) {
   res.status(200).send(popupMsg);
 });
 
-const modifyCoordinates = originalResponse =>
-  originalResponse.reduce((acc, curr) => {
-    const {
-      coordinates: {
-        coordinates: [longitude, latitude]
-      }
-    } = curr;
-
-    return [
-      ...acc,
-      {
-        ...curr,
-        coordinates: {
-          latitude,
-          longitude
-        }
-      }
-    ];
-  }, []);
-
-app.use(
-  "/food",
+const proxyMiddleware = (target, pathRewrite) =>
   createProxyMiddleware({
-    target: config.get("foodUrl"),
+    target,
     changeOrigin: true,
-    pathRewrite: { "^/food": "" },
+    pathRewrite,
     selfHandleResponse: true,
-    onProxyRes: responseInterceptor(async responseBuffer => {
-      const originalResponse = JSON.parse(responseBuffer.toString());
+    onProxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
+      console.log(proxyRes.headers);
+      if (proxyRes.headers["content-type"] !== "application/json;charset=utf-8")
+        return responseBuffer;
 
-      const modifiedResponse = modifyCoordinates(originalResponse);
+      const originalResponse = JSON.parse(responseBuffer.toString("utf8"));
+
+      const modifiedResponse = originalResponse.map(item => {
+        if (!item.coordinates) return item;
+        if (!item.coordinates.coordinates) return item;
+
+        const {
+          coordinates: {
+            coordinates: [longitude, latitude]
+          }
+        } = item;
+
+        return {
+          ...item,
+          coordinates: {
+            latitude,
+            longitude
+          }
+        };
+      });
 
       return JSON.stringify(modifiedResponse);
     })
-  })
-);
+  });
+
+app.use("/food", proxyMiddleware(config.get("foodUrl"), { "^/food": "" }));
 
 app.use(
   "/library",
-  createProxyMiddleware({
-    target: config.get("libraryUrl"),
-    changeOrigin: true,
-    pathRewrite: { "^/library": "" },
-    selfHandleResponse: true,
-    onProxyRes: responseInterceptor(async responseBuffer => {
-      const originalResponse = JSON.parse(responseBuffer.toString());
-
-      const modifiedResponse = modifyCoordinates(originalResponse);
-
-      return JSON.stringify(modifiedResponse);
-    })
-  })
+  proxyMiddleware(config.get("libraryUrl"), { "^/library": "" })
 );
 
 app.use(express.static("./public"));
